@@ -9,3 +9,7 @@
 # laircronos
 
 LAIR on Cronos WebSite
+
+## Licensing
+
+Licensing scope and preserved third-party permissions are documented in [LICENSING.md](LICENSING.md). The [0xfunboy Non-Commercial License](LICENSE.md) covers eligible original material only.
