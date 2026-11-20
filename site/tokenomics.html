@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LAIR • Tokenomics</title>
+  <meta name="description" content="LAIR Tokenomics: supply allocation, dev lock countdown, liquidity and rewards." />
+  <meta name="theme-color" content="#0a0620" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LAIR • Leoness AI on Cronos" />
+  <meta property="og:title" content="LAIR • Tokenomics" />
+  <meta property="og:description" content="Supply allocation, dev wallet lock, pie chart & methodology." />
+  <meta property="og:url" content="https://laircronos.xyz/tokenomics.html" />
+  <meta property="og:image" content="https://laircronos.xyz/assets/tokenomics_og.jpg" />
+  <meta property="og:image:secure_url" content="https://laircronos.xyz/assets/tokenomics_og.jpg" />
+  <meta property="og:image:width" content="1920" />
+  <meta property="og:image:height" content="1080" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://laircronos.xyz/assets/tokenomics_og.jpg" />
+  <link rel="preload" as="image" href="assets/tokenomics_og.jpg" />
+
+  <!-- Fonts & Base Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#0a0620; --bg2:#0c0a28;
+      --glass:rgba(255,255,255,0.06); --stroke:rgba(255,255,255,0.18); --stroke-soft:rgba(255,255,255,0.09);
+      --txt:#e8e8ee; --muted:#a9a9c3;
+      --cy:#35e0ff; --mg:#ff2ea6; --yl:#ffd84d;
+    }
+    *{box-sizing:border-box} 
+    html,body{height:100%; overflow-x:hidden;}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
+    .backdrop{position:fixed;inset:0;z-index:-2;background:
+      radial-gradient(1200px 800px at 70% -10%,rgba(53,224,255,.18),transparent 60%),
+      radial-gradient(900px 600px at -10% 30%,rgba(255,46,166,.18),transparent 60%),
+      linear-gradient(180deg,var(--bg),var(--bg2));background-attachment:fixed}
+
+    /* NAV (identico a index.html) */
+    .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+      background:linear-gradient(180deg,rgba(10,6,32,.75),rgba(10,6,32,.35));border-bottom:1px solid var(--stroke)}
+    .nav .wrap{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;gap:10px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:34px;width:auto}
+    .brand b{font-size:1.05rem;letter-spacing:.5px;white-space:nowrap;font-family:"Space Grotesk",Inter,sans-serif}
+    .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .tab,.icon{
+      display:inline-flex;align-items:center;justify-content:center;
+      height:38px;border-radius:4px;border:1px solid var(--stroke-soft);
+      background:var(--glass);color:var(--txt);text-decoration:none;padding:0 12px;transition:.18s
+    }
+    .icon{width:38px;padding:0}
+    .icon:hover,.tab:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(53,224,255,.25);border-color:rgba(53,224,255,.25)}
+    .tab.active{border-color:rgba(53,224,255,.3);box-shadow:0 6px 22px rgba(53,224,255,.25)}
+    .tab.cta-nav{border-color:rgba(53,224,255,.25);background:linear-gradient(180deg,rgba(53,224,255,.14),rgba(255,46,166,.08));font-weight:700}
+    .i{width:18px;height:18px;display:inline-block;vertical-align:-3px} .i path{fill:currentColor}
+    .icon img {width:18px; height:18px; display:block;}
+    
+    /* PAGE */
+    header.page{padding:40px 18px 8px;max-width:1100px;margin:0 auto}
+    .kicker{color:var(--yl);font-weight:800;letter-spacing:.6px;font-size:.8rem;text-transform:uppercase}
+    h1{font-size:clamp(1.8rem,4vw,2.6rem);margin:6px 0 0;font-family:"Space Grotesk",Inter,sans-serif;line-height:1.1}
+    main{max-width:1100px;margin:0 auto;padding:24px 18px 60px}
+    section.block{
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+      border:1px solid var(--stroke-soft);border-radius:6px;padding:18px;margin:18px 0
+    }
+    h2{margin:0 0 10px;font-family:"Space Grotesk",Inter,sans-serif}
+    p,li,a,.note {color:var(--muted);margin:10px 0; overflow-wrap:anywhere; word-break:break-word;}
+    ul{margin:10px 0 0 20px; padding-left: 20px;}
+    .note{font-size:.95rem;color:var(--muted)}
+    .sep{height:1px;background:var(--stroke);margin:28px 0;border:0}
+    a{color:#aee8ff}
+    .cta-banner{max-width:1100px;margin:8px auto 0;padding:0 18px}
+    .cta-banner .inner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,rgba(53,224,255,.09),rgba(255,46,166,.05));border:1px solid rgba(53,224,255,.14);border-radius:6px;padding:12px 14px}
+    .cta-btn{display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 14px;border-radius:4px;text-decoration:none;color:#08121a;font-weight:700;background:linear-gradient(135deg,#4be8ff,#33a6ff);border:1px solid rgba(255,255,255,.06)}
+
+    /* Grid */
+    .grid{display:grid;gap:16px}
+    @media(min-width:960px){.grid{grid-template-columns:1.2fr 1fr}}
+
+    /* Pie / legend - FIX DEFINITIVO PER MOBILE */
+    .chart-wrap{display:flex;align-items:center;justify-content:center;padding:12px}
+    #pie {width:100%; max-width:320px; height:auto;} /* Torta fluida */
+    .legend{display:grid; grid-template-columns:1fr; gap:10px; margin-top:12px;} /* Default: 1 colonna */
+    @media (min-width: 500px) {
+        .legend {grid-template-columns:1fr 1fr;} /* 2 colonne solo se c'è spazio */
+    }
+    .legend .item{display:flex;align-items:center;gap:10px;background:var(--glass);border:1px solid var(--stroke-soft);border-radius:6px;padding:10px;}
+    .legend .item > div {min-width:0;} /* Forza il testo a andare a capo */
+    .swatch{width:14px;height:14px;border-radius:3px;flex:0 0 14px;border:1px solid rgba(0,0,0,.2)}
+    .item b{font-weight:600}
+
+    /* Countdown */
+    .countdown{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .cd-box{flex-grow:1; min-width:80px; text-align:center;background:var(--glass);border:1px solid var(--stroke-soft);border-radius:6px;padding:10px}
+    .cd-box b{display:block;font-size:1.3rem}
+    .cd-box span{font-size:.82rem;color:var(--muted)}
+
+    /* table */
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th,td{padding:10px;border-bottom:1px dashed var(--stroke);text-align:left; overflow-wrap:anywhere; word-break:break-word;}
+    th{color:#cfefff;font-weight:600}
+    tfoot td{border:0;padding-top:14px}
+    
+    .og-card img{width:100%;height:auto;border-radius:6px;border:1px solid var(--stroke-soft);box-shadow:0 10px 28px rgba(0,0,0,.25)}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:3px;background:var(--glass);border:1px solid var(--stroke-soft);text-decoration:none;color:var(--txt)}
+    .site-footer{max-width:1100px;margin:24px auto 0;padding:0 18px 46px}
+    .site-footer .box{border:1px solid var(--stroke-soft);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border-radius:3px}
+    .site-footer .top{display:grid;gap:10px;grid-template-columns:1.1fr 1fr 1fr;padding:15px}
+    .site-footer .top > div{min-width:0}
+    .site-footer h4{margin:0 0 6px;color:var(--cy);font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;font-family:"Space Grotesk",Inter,sans-serif}
+    .site-footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+    .site-footer li a{color:var(--muted);text-decoration:none}
+    .site-footer li a:hover{color:var(--txt)}
+    .site-footer .brandline{display:flex;align-items:center;gap:10px;color:#fff;font-family:"Space Grotesk",Inter,sans-serif;font-weight:700;text-decoration:none}
+    .site-footer .brandline img{width:28px;height:28px;object-fit:contain}
+    .site-footer .subcopy{color:var(--muted);font-size:.92rem;margin-top:6px;max-width:40ch}
+    .site-footer .bottom{border-top:1px solid var(--stroke);padding:10px 15px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;color:var(--muted);font-size:.82rem}
+    .site-footer .icon-row{display:flex;gap:8px}
+    .site-footer .icon-row a{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--stroke-soft);background:var(--glass);border-radius:2px;color:var(--txt);text-decoration:none}
+    .site-footer .icon-row a:hover{border-color:rgba(53,224,255,.25)}
+    @media (max-width:900px){.site-footer .top{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="backdrop"></div>
+
+  <nav class="nav">
+    <div class="wrap">
+      <div class="brand">
+        <img src="assets/LAIR_Logo_text_512Trasp.png" alt="LAIR logo">
+        <b>LAIR • Leoness AI on Cronos</b>
+      </div>
+      <div class="actions">
+        <a class="tab" href="index.html" title="Home">Home</a>
+        <a class="tab cta-nav" href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener" title="LAIR dApp">LAIR dApp</a>
+        <a class="tab" href="roadmap.html" title="Roadmap">Roadmap</a>
+        <a class="tab active" href="tokenomics.html" title="Tokenomics">Tokenomics</a>
+        <a class="tab" href="https://laircronos.gitbook.io/" target="_blank" rel="noopener" title="Whitepaper">Whitepaper</a>
+        <a class="icon" href="https://x.com/LAIRcronos" target="_blank" aria-label="Twitter" title="Twitter"><svg class="i" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.47.69a4.22 4.22 0 0 0 1.85-2.33 8.43 8.43 0 0 1-2.67 1.02A4.19 4.19 0 0 0 12 8.38c0 .33.04.65.11.96A11.9 11.9 0 0 1 3.16 4.9a4.18 4.18 0 0 0 1.3 5.59c-.66 -.02 -1.28 -.2 -1.82 -.5v .05c0 2.03 1.45 3.72 3.37 4.11 -.35 .1 -.72 .15 -1.1 .15 -.27 0 -.53 -.03 -.78 -.07 .53 1.67 2.08 2.88 3.91 2.91A8.41 8.41 0 0 1 2 19.54a11.86 11.86 0 0 0 6.44 1.88c7.73 0 11.96 -6.41 11.96 -11.96l -.01 -.55A8.53 8.53 0 0 0 24 5.5c -.84 .37 -1.73 .62 -2.67 .74z"/></svg></a>
+        <a class="icon" href="https://t.me/LAIRcronos" target="_blank" aria-label="Telegram News" title="Telegram News"><svg class="i" viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.34c.55 0 .79 -.24 1.08 -.52l2.6 -2.5 5.39 3.9c .99 .54 1.7 .26 1.98 -.92l3.6 -16.86h .01c .32 -1.48 -.54 -2.06 -1.5 -1.7L1.2 9.83C -.33 10.44 -.31 11.32 .93 11.7l5.77 1.8L19.5 6.4c .6 -.4 1.16 -.17 .71 .23"/></svg></a>
+        <a class="icon" href="https://t.me/cronosLAIR" target="_blank" aria-label="Telegram Community" title="Telegram Community"><svg class="i" viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.34c .55 0 .79 -.24 1.08 -.52l2.6 -2.5 5.39 3.9c .99 .54 1.7 .26 1.98 -.92l3.6 -16.86h .01c .32 -1.48 -.54 -2.06 -1.5 -1.7L1.2 9.83C -.33 10.44 -.31 11.32 .93 11.7l5.77 1.8L19.5 6.4c .6 -.4 1.16 -.17 .71 .23"/></svg></a>
+        <a class="icon" href="https://dexscreener.com/cronos/0xdfa130ad144e4b64b5cb537b9123a956d174fe23" target="_blank" aria-label="Dexscreener" title="Dexscreener"><img src="assets/dex-screener-seeklogo.svg" alt=""></a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page">
+    <div class="kicker">LAIR</div>
+    <h1>Tokenomics</h1>
+    <p class="note">High-level supply breakdown with a dev-wallet lock countdown. Public proofs are linked below.</p>
+  </header>
+
+  <div class="cta-banner">
+    <div class="inner">
+      <div>
+        <b>Want the operational side?</b>
+        <div class="note">Tokenomics here, live trade engine visibility on the LAIR dApp.</div>
+      </div>
+      <a class="cta-btn" href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener">Open LAIR dApp</a>
+    </div>
+  </div>
+
+  <main>
+    <section class="block">
+      <div class="grid">
+        <div>
+          <h2>Supply Allocation</h2>
+          <p>Supply is allocated across functional buckets to secure liquidity, growth and sustainable operations. Totals sum to 100%.</p>
+          <div class="legend" id="legend"></div>
+          <table id="alloc-table" aria-label="Allocation Table">
+            <tfoot><tr><td><b>Total</b></td><td><b>100%</b></td></tr></tfoot>
+          </table>
+        </div>
+        <div>
+          <div class="chart-wrap">
+            <svg id="pie" viewBox="0 0 42 42" role="img" aria-label="Tokenomics pie chart"><circle cx="21" cy="21" r="15.9155" fill="transparent" stroke="#1b1b36" stroke-width="10"></circle><circle cx="21" cy="21" r="9" fill="#0a0620"></circle><text x="21" y="21" text-anchor="middle" dominant-baseline="middle" font-size="3" fill="#e8e8ee">$LAIR</text></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="sep">
+
+    <section class="block">
+      <h2>Dev Wallet Lock <span style="margin-left:8px" class="pill">180 days</span></h2>
+      <p>The <b>dev wallet</b> is locked for 180 days starting <b>2 Sep 2025</b>. A post-unlock update will be provided.</p>
+      <div class="countdown" id="countdown"></div>
+      <p class="note">Dev / Deployer wallet: <a href="https://cronoscan.com/address/0x2AdC85FF78D4b36cd766B6BB7909F868222B150C" target="_blank" rel="noopener">0x2AdC85FF78D4b36cd766B6BB7909F868222B150C</a></p>
+      <ul>
+        <li><b>Lock TX (PUUSH):</b> <a href="https://cronoscan.com/tx/0xba73a7f69f82128b3ea8a45ef46666d4136364699b1439d20c21489ae1e8e4ff" target="_blank" rel="noopener">View transaction on CronoScan</a></li>
+        <li><b>VVS Finance (Pool):</b> <a href="https://vvs.finance/info/token/0xbC62C287b50B86A46e5B552bCd5BF9b64DA35eCc" target="_blank" rel="noopener">Pool dashboard</a></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Methodology & Principles</h2>
+      <ul>
+        <li><b>Public Float (49%)</b> — circulating supply held by the market post-launch.</li>
+        <li><b>Liquidity & LP incentives (27%)</b> — initial/ongoing LP provisioning and KPI-based incentives; periodic locks, anti-rug policy.</li>
+        <li><b>Rewards & Utility (7%)</b> — consolidated (former Community + Staking) incentives tied to real usage.</li>
+        <li><b>Partnerships & Ecosystem (2%)</b> — targeted integrations and partner grants.</li>
+        <li><b>Marketing & Growth (2%)</b> — focused growth campaigns and listings support.</li>
+        <li><b>Operations & Infrastructure (5%)</b> — servers, streaming stack, tools, security.</li>
+        <li><b>Treasury (4%)</b> — buffer, potential buyback & burn per policy.</li>
+        <li><b>Dev Wallet (4%)</b> — locked 180 days; no additional emissions.</li>
+      </ul>
+    </section>
+
+    <section class="block og-card">
+      <h2>Shareable Tokenomics Card</h2>
+      <p class="note">Download and share our Open Graph image for posts and previews.</p>
+      <a href="assets/tokenomics_og.jpg" download style="display:block;text-decoration:none;">
+        <picture>
+          <source srcset="assets/tokenomics_og.jpg?v=2" type="image/jpeg">
+          <img src="assets/tokenomics_og.png?v=2" alt="$LAIR Tokenomics — Supply Allocation & Dev Lock" width="1280" height="720" style="display:block;max-width:100%;height:auto;border-radius:12px;border:1px solid var(--stroke);box-shadow:0 10px 28px rgba(0,0,0,.25)" loading="lazy" decoding="async">
+        </picture>
+      </a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="box">
+      <div class="top">
+        <div>
+          <a class="brandline" href="https://laircronos.xyz">
+            <img src="assets/LAIRfullsquaretrasp720.png" alt="LAIR">
+            <span>LAIR Cronos</span>
+          </a>
+          <div class="subcopy">
+            AI trading agent on Cronos with a public dApp for execution transparency, chart review and risk-managed trade lifecycle tracking.
+          </div>
+        </div>
+        <div>
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="roadmap.html">Roadmap</a></li>
+            <li><a href="tokenomics.html">Tokenomics</a></li>
+            <li><a href="https://laircronos.gitbook.io/" target="_blank" rel="noopener">Whitepaper</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Products & Links</h4>
+          <ul>
+            <li><a href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener">LAIR dApp</a></li>
+            <li><a href="https://dexscreener.com/cronos/0xdfa130ad144e4b64b5cb537b9123a956d174fe23" target="_blank" rel="noopener">Dexscreener</a></li>
+            <li><a href="https://wolfstreet.fun/launcher/0xbC62C287b50B86A46e5B552bCd5BF9b64DA35eCc" target="_blank" rel="noopener">Launchpad</a></li>
+            <li><a href="https://x.com/LAIRcronos" target="_blank" rel="noopener">X / Telegram</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom">
+        <div>© 2025 LAIR Cronos • Educational content only • NFA • DYOR</div>
+        <div class="icon-row">
+          <a href="https://x.com/LAIRcronos" target="_blank" rel="noopener" aria-label="X / Twitter">
+            <svg class="i" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://t.me/LAIRcronos" target="_blank" rel="noopener" aria-label="Telegram News">
+            <svg class="i" viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.34c.55 0 .79-.24 1.08-.52l2.6-2.5 5.39 3.9c.99 .54 1.7 .26 1.98 -.92l3.6 -16.86h .01c .32 -1.48 -.54 -2.06 -1.5 -1.7L1.2 9.83C -.33 10.44 -.31 11.32 .93 11.7l5.77 1.8L19.5 6.4c .6 -.4 1.16 -.17 .71 .23"/></svg>
+          </a>
+          <a href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener" aria-label="LAIR dApp">
+            <svg class="i" viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div aria-hidden="true" style="width:1px;height:1px;overflow:hidden;margin:0 auto;"><img src="assets/tokenomics_og.jpg?v=2" alt="" width="1" height="1" loading="eager" decoding="async" fetchpriority="high" style="display:block;width:1px;height:1px;object-fit:cover;"></div>
+  </footer>
+
+  <script>
+    const alloc=[{label:"Public Float (DEX buyers)",pct:49,color:"#35e0ff"},{label:"Liquidity & LP incentives",pct:27,color:"#ff2ea6"},{label:"Rewards & Utility (consolidated)",pct:7,color:"#ffd84d"},{label:"Partnerships & Ecosystem",pct:2,color:"#f2c14e"},{label:"Marketing & Growth",pct:2,color:"#ff9c66"},{label:"Operations & Infrastructure",pct:5,color:"#8aa1ff"},{label:"Treasury (buyback & burn)",pct:4,color:"#c388ff"},{label:"Dev Wallet (locked 180d)",pct:4,color:"#ff4d4d"}];
+    const legend=document.getElementById('legend'),table=document.getElementById('alloc-table');
+    let rows='<tr><th>Category</th><th>Percent</th></tr>';
+    alloc.forEach(a=>{const item=document.createElement('div');item.className='item';item.innerHTML=`<span class="swatch" style="background:${a.color}"></span><div><b>${a.label}</b><div>${a.pct}%</div></div>`;legend.appendChild(item);rows+=`<tr><td>${a.label}</td><td>${a.pct}%</td></tr>`});
+    table.innerHTML=rows+table.innerHTML;
+    const CIRC=100;let offset=25;const pie=document.getElementById('pie');
+    alloc.forEach(a=>{const slice=document.createElementNS('http://www.w3.org/2000/svg','circle');slice.setAttribute('cx','21');slice.setAttribute('cy','21');slice.setAttribute('r','15.9155');slice.setAttribute('fill','transparent');slice.setAttribute('stroke',a.color);slice.setAttribute('stroke-width','10');slice.setAttribute('stroke-dasharray',`${a.pct} ${CIRC-a.pct}`);slice.setAttribute('stroke-dashoffset',offset);slice.setAttribute('opacity','0.96');pie.appendChild(slice);offset-=a.pct});
+    const lockEnd=Date.UTC(2025,8,2,0,0,0)+180*24*60*60*1000,cd=document.getElementById('countdown'),parts=[{key:'days',label:'Days'},{key:'hours',label:'Hours'},{key:'mins',label:'Minutes'},{key:'secs',label:'Seconds'}],boxes={};
+    parts.forEach(p=>{const box=document.createElement('div');box.className='cd-box';box.innerHTML=`<b id="cd-${p.key}">--</b><span>${p.label}</span>`;cd.appendChild(box);boxes[p.key]=document.getElementById(`cd-${p.key}`)});
+    function tick(){const now=Date.now();let diff=Math.max(0,lockEnd-now);const days=Math.floor(diff/(864e5));diff-=days*864e5;const hours=Math.floor(diff/(36e5));diff-=hours*36e5;const mins=Math.floor(diff/6e4);diff-=mins*6e4;const secs=Math.floor(diff/1e3);boxes.days.textContent=String(days);boxes.hours.textContent=String(hours).padStart(2,'0');boxes.mins.textContent=String(mins).padStart(2,'0');boxes.secs.textContent=String(secs).padStart(2,'0');if(now>=lockEnd){cd.previousElementSibling.textContent="Dev wallet has unlocked. Post-unlock update will follow.";clearInterval(timer)}};
+    const timer=setInterval(tick,1000);tick();
+  </script>
+</body>
+</html>
