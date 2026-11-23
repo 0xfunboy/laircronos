@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LAIR • Roadmap</title>
+  <meta name="description" content="LAIR — Project Roadmap on Cronos: phases, deliverables, and always-on tracks.">
+  <meta name="theme-color" content="#2c0f6f">
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <meta property="og:title" content="LAIR • Project Roadmap">
+  <meta property="og:description" content="Phased plan to build the most trusted AI Influencer-Trader Agent on Cronos.">
+  <meta property="og:url" content="https://laircronos.xyz/roadmap.html">
+  <meta property="og:image" content="https://laircronos.xyz/assets/roadmap_og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <style>
+    :root{
+      --bg:#0a0620; --bg2:#0c0a28;
+      --glass:rgba(255,255,255,0.06); --stroke:rgba(255,255,255,0.18); --stroke-soft:rgba(255,255,255,0.09);
+      --txt:#e8e8ee; --muted:#a9a9c3;
+      --cy:#35e0ff; --mg:#ff2ea6; --yl:#ffd84d;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%; overflow-x:hidden;}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
+    .backdrop{position:fixed;inset:0;z-index:-2;background:
+      radial-gradient(1200px 800px at 70% -10%,rgba(53,224,255,.18),transparent 60%),
+      radial-gradient(900px 600px at -10% 30%,rgba(255,46,166,.18),transparent 60%),
+      linear-gradient(180deg,var(--bg),var(--bg2));background-attachment:fixed}
+
+    .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:linear-gradient(180deg,rgba(10,6,32,.75),rgba(10,6,32,.35));border-bottom:1px solid var(--stroke)}
+    .nav .wrap{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;gap:10px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:34px;width:auto}
+    .brand b{font-size:1.05rem;letter-spacing:.5px;white-space:nowrap;font-family:"Space Grotesk",Inter,sans-serif}
+    .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .tab,.icon{
+      display:inline-flex;align-items:center;justify-content:center;
+      height:38px;border-radius:4px;border:1px solid var(--stroke-soft);
+      background:var(--glass);color:var(--txt);text-decoration:none;padding:0 12px;transition:.18s
+    }
+    .tab.active{border-color:rgba(53,224,255,.3);box-shadow:0 6px 22px rgba(53,224,255,.25)}
+    .tab.cta-nav{border-color:rgba(53,224,255,.25);background:linear-gradient(180deg,rgba(53,224,255,.14),rgba(255,46,166,.08));font-weight:700}
+    .icon{width:38px;padding:0}
+    .icon img{width:18px;height:18px;display:block}
+    .icon:hover,.tab:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(53,224,255,.25);border-color:rgba(53,224,255,.25)}
+    .i{width:18px;height:18px;display:inline-block;vertical-align:-3px} .i path{fill:currentColor}
+
+    header.page{padding:40px 18px 8px;max-width:1100px;margin:0 auto}
+    .kicker{color:var(--yl);font-weight:800;letter-spacing:.6px;font-size:.8rem;text-transform:uppercase}
+    h1{font-size:clamp(1.8rem,4vw,2.6rem);margin:6px 0 0;font-family:"Space Grotesk",Inter,sans-serif;line-height:1.1}
+    main{max-width:1100px;margin:0 auto;padding:24px 18px 60px}
+    section.block{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid var(--stroke-soft);border-radius:6px;padding:18px;margin:18px 0}
+    h2{font-size:clamp(1.3rem,2.6vw,1.8rem);margin:0 0 10px;font-family:"Space Grotesk",Inter,sans-serif}
+    p,li{color:var(--muted); overflow-wrap:anywhere;word-break:break-word;}
+    ul{margin:10px 0 0 20px;padding-left:20px}
+    .note{font-size:.95rem}
+    .sep{height:1px;background:var(--stroke);margin:28px 0;border:0}
+    a{color:#aee8ff}
+    .roadmap-figure{display:block;margin:8px auto 0;max-width:1100px;padding:0}
+    .roadmap-figure img{width:100%;height:auto;display:block;border-radius:6px;border:1px solid var(--stroke-soft);box-shadow:0 12px 32px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.04)}
+    .roadmap-figure figcaption{color:var(--muted);font-size:.9rem;margin-top:10px;text-align:center}
+    .cta-banner{max-width:1100px;margin:10px auto 0;padding:0 18px}
+    .cta-banner .inner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,rgba(53,224,255,.09),rgba(255,46,166,.05));border:1px solid rgba(53,224,255,.14);border-radius:6px;padding:12px 14px}
+    .cta-btn{display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 14px;border-radius:4px;text-decoration:none;color:#08121a;font-weight:700;background:linear-gradient(135deg,#4be8ff,#33a6ff);border:1px solid rgba(255,255,255,.06)}
+    .site-footer{max-width:1100px;margin:24px auto 0;padding:0 18px 46px}
+    .site-footer .box{border:1px solid var(--stroke-soft);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border-radius:3px}
+    .site-footer .top{display:grid;gap:10px;grid-template-columns:1.1fr 1fr 1fr;padding:15px}
+    .site-footer .top > div{min-width:0}
+    .site-footer h4{margin:0 0 6px;color:var(--cy);font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;font-family:"Space Grotesk",Inter,sans-serif}
+    .site-footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+    .site-footer li a{color:var(--muted);text-decoration:none}
+    .site-footer li a:hover{color:var(--txt)}
+    .site-footer .brandline{display:flex;align-items:center;gap:10px;color:#fff;font-family:"Space Grotesk",Inter,sans-serif;font-weight:700;text-decoration:none}
+    .site-footer .brandline img{width:28px;height:28px;object-fit:contain}
+    .site-footer .subcopy{color:var(--muted);font-size:.92rem;margin-top:6px;max-width:40ch}
+    .site-footer .bottom{border-top:1px solid var(--stroke);padding:10px 15px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;color:var(--muted);font-size:.82rem}
+    .site-footer .icon-row{display:flex;gap:8px}
+    .site-footer .icon-row a{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--stroke-soft);background:var(--glass);border-radius:2px;color:var(--txt);text-decoration:none}
+    .site-footer .icon-row a:hover{border-color:rgba(53,224,255,.25)}
+    @media (max-width:900px){.site-footer .top{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="backdrop"></div>
+
+  <nav class="nav">
+    <div class="wrap">
+      <div class="brand">
+        <img src="assets/LAIR_Logo_text_512Trasp.png" alt="LAIR logo">
+        <b>LAIR • Leoness AI on Cronos</b>
+      </div>
+      <div class="actions">
+        <a class="tab" href="index.html" title="Home">Home</a>
+        <a class="tab cta-nav" href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener" title="LAIR dApp">LAIR dApp</a>
+        <a class="tab active" href="roadmap.html" title="Roadmap">Roadmap</a>
+        <a class="tab" href="tokenomics.html" title="Tokenomics">Tokenomics</a>
+        <a class="tab" href="https://laircronos.gitbook.io/" target="_blank" rel="noopener" title="Whitepaper">Whitepaper</a>
+        <a class="icon" href="https://x.com/LAIRcronos" target="_blank" aria-label="Twitter" title="Twitter"><svg class="i" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.47.69a4.22 4.22 0 0 0 1.85-2.33 8.43 8.43 0 0 1-2.67 1.02A4.19 4.19 0 0 0 12 8.38c0 .33.04.65.11.96A11.9 11.9 0 0 1 3.16 4.9a4.18 4.18 0 0 0 1.3 5.59c-.66-.02-1.28-.2-1.82-.5v.05c0 2.03 1.45 3.72 3.37 4.11-.35.1-.72.15-1.1.15-.27 0-.53-.03-.78-.07.53 1.67 2.08 2.88 3.91 2.91A8.41 8.41 0 0 1 2 19.54a11.86 11.86 0 0 0 6.44 1.88c7.73 0 11.96-6.41 11.96-11.96l-.01-.55A8.53 8.53 0 0 0 24 5.5c-.84 .37-1.73 .62-2.67 .74z"/></svg></a>
+        <a class="icon" href="https://t.me/LAIRcronos" target="_blank" aria-label="Telegram News" title="Telegram News"><svg class="i" viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.34c.55 0 .79-.24 1.08-.52l2.6-2.5 5.39 3.9c.99.54 1.7 .26 1.98-.92l3.6-16.86h.01c.32-1.48-.54-2.06-1.5-1.7L1.2 9.83C-.33 10.44-.31 11.32.93 11.7l5.77 1.8L19.5 6.4c.6-.4 1.16-.17.71 .23"/></svg></a>
+        <a class="icon" href="https://t.me/cronosLAIR" target="_blank" aria-label="Telegram Community" title="Telegram Community"><svg class="i" viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.34c.55 0 .79-.24 1.08-.52l2.6-2.5 5.39 3.9c.99.54 1.7 .26 1.98-.92l3.6-16.86h.01c.32-1.48-.54-2.06-1.5-1.7L1.2 9.83C-.33 10.44-.31 11.32.93 11.7l5.77 1.8L19.5 6.4c.6-.4 1.16-.17.71 .23"/></svg></a>
+        <a class="icon" href="https://dexscreener.com/cronos/0xdfa130ad144e4b64b5cb537b9123a956d174fe23" target="_blank" aria-label="Dexscreener" title="Dexscreener"><img src="assets/dex-screener-seeklogo.svg" alt=""></a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page">
+    <div class="kicker">Roadmap</div>
+    <h1>LAIR — Project Roadmap</h1>
+  </header>
+
+  <div class="cta-banner">
+    <div class="inner">
+      <div>
+        <b>Roadmap = direction. LAIR dApp = live execution visibility.</b>
+        <div class="note">Inspect active/pending/closed trades and chart overlays directly in the dApp.</div>
+      </div>
+      <a class="cta-btn" href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener">Open LAIR dApp</a>
+    </div>
+  </div>
+
+  <figure class="roadmap-figure">
+    <img src="assets/roadmap.png" alt="LAIR roadmap infographic showing phases and long-term vision">
+    <figcaption>High-level visual overview. Details below.</figcaption>
+  </figure>
+
+  <main>
+    <section class="block">
+      <h2>Phase 0 — Foundation (DONE / LIVE)</h2>
+      <ul>
+        <li><b>Launch &amp; graduation:</b> fair launch via WolfStreet; graduated with program benefits.</li>
+        <li><b>Liquidity &amp; locks:</b> dev wallet locked (~4% for 6 months).</li>
+        <li><b>Agent live on socials:</b> commands for <code>CHART</code>, <code>ANALYSIS</code>, <code>FUNDAMENTAL</code>, <code>PRICE</code>, <code>NEWS</code>, <code>SENTIMENT</code> with <code>$TICKER</code> or <code>CA</code>.</li>
+        <li><b>Market presence:</b> profile and live data on Dexscreener; ongoing comms on X &amp; Telegram.</li>
+      </ul>
+      <p class="note"><b>Ongoing:</b> stability fixes, latency improvements, moderation, uptime SLOs.</p>
+    </section>
+    <hr class="sep">
+    <section class="block">
+      <h2>Phase 1 — Post-Launch Hardening (Week 1–4)</h2>
+      <ul>
+        <li><b>Data &amp; signal upgrades</b><ul><li>Faster token scanners (volume/hype/momentum).</li><li>Deeper fundamentals (LP health, holder dispersion, contract flags).</li><li>Chart presets with EMA/VWAP/RSI.</li></ul></li>
+        <li><b>UX &amp; reach</b><ul><li>Reply quality tuning, clearer error handling, command hints.</li><li>Telegram mirror bot for community use.</li></ul></li>
+        <li><b>Liquidity program</b><ul><li>VVS Pool after migration.</li><li>Incentivized pool with KPI-based rewards.</li></ul></li>
+        <li><b>Security &amp; reliability</b><ul><li>Rate-limit &amp; anti-spam on endpoints.</li><li>Monitoring dashboards and incident runbooks.</li></ul></li>
+      </ul>
+      <p class="note"><b>Deliverables:</b> changelog v1, vault announcement, LP plan, status page.</p>
+    </section>
+    <hr class="sep">
+    <section class="block">
+      <h2>Phase 2 — Productization (Month 1–2)</h2>
+      <ul>
+        <li><b>LAIR Portal (web)</b><ul><li>Command explorer &amp; live feed.</li><li>“Try it” widgets with pre-filled prompts.</li><li>Accountless credits + pay-per-feature for power users.</li></ul></li>
+        <li><b>Partner toolkit (B2B)</b><ul><li>White-label/custom agents for projects &amp; KOLs.</li><li>Team dashboards (usage analytics, heatmaps).</li></ul></li>
+        <li><b>Listings &amp; integrations</b><ul><li>Additional DEX integrations on Cronos.</li><li>CEX listing framework (OTC, MM wallets, unlock policies).</li></ul></li>
+        <li><b>Transparency</b><ul><li>Dev-wallet &amp; LP dashboards.</li><li>Quarterly transparency report.</li></ul></li>
+      </ul>
+      <p class="note"><b>Deliverables:</b> LAIR Portal v1, partner pilots, listing playbook, dashboards.</p>
+    </section>
+    <hr class="sep">
+    <section class="block">
+      <h2>Phase 3 — dApp &amp; Token Utility Expansion (Month 2–4)</h2>
+      <ul>
+        <li><b>dApp rollout (beta → public)</b><ul><li>Wallet connect, profile, service menu.</li><li>Token-gated usage:<ul><li>Lock $LAIR → enable bot in private TG/Discord.</li><li>Stake tiers → unlock alerts, reports, voice spots.</li><li>Premium payments → deep analysis packs.</li></ul></li></ul></li>
+        <li><b>Airdrops &amp; rewards</b><ul><li>Periodic airdrops for active users &amp; LP stakers.</li><li>Reward vaults tied to engagement.</li></ul></li>
+        <li><b>Marketplace</b><ul><li>Menu of services: custom alerts, post scheduling, audits.</li><li>Future: template &amp; plugin marketplace (rev share in $LAIR).</li></ul></li>
+        <li><b>Economic flywheel</b><ul><li>Revenue → treasury → buyback &amp; burn.</li><li>Early unlocks → burn % of locked tokens.</li></ul></li>
+      </ul>
+    </section>
+    <hr class="sep">
+    <section class="block">
+      <h2>Phase 4 — Streaming &amp; Content Engine (Month 3–5)</h2>
+      <ul>
+        <li><b>Live presence</b><ul><li>MetaHuman streaming on Twitch, YouTube, X.</li><li>Real-time chart overlays, news reads, sentiment updates.</li><li>Auto-clipped shorts distributed on TikTok, Reels, Shorts.</li></ul></li>
+        <li><b>Community growth</b><ul><li>Sponsored reads, KOL integrations.</li><li>Weekly “State of Cronos” reports streamed and posted.</li></ul></li>
+        <li><b>Monetization</b><ul><li>Voice spot auctions (paid in $LAIR).</li><li>Premium placements &amp; sponsor mentions.</li></ul></li>
+      </ul>
+      <p class="note"><b>Deliverables:</b> live channels, content engine, monetization pilots.</p>
+    </section>
+    <hr class="sep">
+    <section class="block">
+      <h2>Phase 5 — Research &amp; Guardrails for Auto-Trading (Month 4–6)</h2>
+      <p class="note"><b>Auto-trading will not go public</b> until safety, audits, and risk checks pass.</p>
+      <ul>
+        <li><b>Risk &amp; compliance layer</b><ul><li>Sandbox with slippage/latency simulation.</li><li>Risk rails: stop limits, cooldowns, news-halt triggers.</li><li>Multi-sig governance for strategy changes.</li></ul></li>
+        <li><b>Execution adapters (Cronos DEXs)</b><ul><li>Market &amp; limit orders.</li><li>Backtesting with telemetry.</li></ul></li>
+        <li><b>Audit &amp; review</b><ul><li>Third-party review of guardrails.</li><li>Bug bounty program.</li></ul></li>
+      </ul>
+      <p class="note"><b>Deliverables:</b> “Auto-Trading Readiness” report, sandbox metrics, audits.</p>
+    </section>
+    <hr class="sep">
+    <section class="block">
+      <h2>Phase 6 — Ecosystem Growth &amp; White-Label (Month 6–8)</h2>
+      <ul>
+        <li><b>Signal distribution</b><ul><li>Alerts: trending tokens, listings, capital flows.</li><li>Weekly Cronos briefs by LAIR.</li></ul></li>
+        <li><b>Economics &amp; burns</b><ul><li>Feature credits and partner tiers.</li><li>Revenue sinks → periodic burns.</li></ul></li>
+        <li><b>White-label agents</b><ul><li>Custom branded agents for projects/communities.</li><li>Pricing in $LAIR or revenue share.</li></ul></li>
+        <li><b>Analytics API</b><ul><li>Read-only endpoints for charts, fundamentals, sentiment.</li></ul></li>
+      </ul>
+      <p class="note"><b>Deliverables:</b> API beta, white-label rollout, burn reports.</p>
+    </section>
+    <hr class="sep">
+    <section class="block">
+      <h2>Phase 7 — MetaHuman Expansion &amp; Advanced Avatars (Month 9–12)</h2>
+      <ul>
+        <li><b>Instanced avatars</b><ul><li>One-to-one agents: personalized companion with memory &amp; filters.</li><li>One-to-many agents: scalable MetaHuman hosts for AMAs, streams, events.</li></ul></li>
+        <li><b>Streaming upgrades</b><ul><li>Multi-language support, scene automation, branded overlays.</li><li>API hooks for sponsors &amp; community voting.</li></ul></li>
+        <li><b>Monetization layer</b><ul><li>Paid avatar sessions.</li><li>Premium group access (voice/video, one-to-one calls).</li></ul></li>
+      </ul>
+      <p class="note"><b>Deliverables:</b> avatar instancing beta, one-to-one private demo, community AMA pilots.</p>
+    </section>
+    <hr class="sep">
+    <section class="block">
+      <h2>Long-Term Vision (Month 12+)</h2>
+      <ul>
+        <li>Agent swarm model: specialized LAIR agents (narrative scanner, sentiment-only, compliance auditor).</li>
+        <li>Community hub dApp: unified portal for staking, rewards, plugins, marketplace.</li>
+        <li>Enterprise deals: full-service white-label MetaHuman agents for exchanges, projects, and DAOs.</li>
+        <li>Treasury automation: fully autonomous cycle → revenue → treasury → buyback → burn → reward.</li>
+        <li>Institutional toolkit: risk dashboards, strategy audits, reporting modules.</li>
+      </ul>
+    </section>
+    <hr class="sep">
+    <section class="block">
+      <h2>Always-On Tracks</h2>
+      <ul>
+        <li><b>Security:</b> key rotations, least-privilege, logs.</li>
+        <li><b>Performance:</b> latency budgets, caching, fallback.</li>
+        <li><b>Compliance:</b> NFA/DYOR labels, disclosures, audits.</li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="box">
+      <div class="top">
+        <div>
+          <a class="brandline" href="https://laircronos.xyz">
+            <img src="assets/LAIRfullsquaretrasp720.png" alt="LAIR">
+            <span>LAIR Cronos</span>
+          </a>
+          <div class="subcopy">
+            AI trading agent on Cronos with a public dApp for execution transparency, chart review and risk-managed trade lifecycle tracking.
+          </div>
+        </div>
+        <div>
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="roadmap.html">Roadmap</a></li>
+            <li><a href="tokenomics.html">Tokenomics</a></li>
+            <li><a href="https://laircronos.gitbook.io/" target="_blank" rel="noopener">Whitepaper</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Products & Links</h4>
+          <ul>
+            <li><a href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener">LAIR dApp</a></li>
+            <li><a href="https://dexscreener.com/cronos/0xdfa130ad144e4b64b5cb537b9123a956d174fe23" target="_blank" rel="noopener">Dexscreener</a></li>
+            <li><a href="https://wolfstreet.fun/launcher/0xbC62C287b50B86A46e5B552bCd5BF9b64DA35eCc" target="_blank" rel="noopener">Launchpad</a></li>
+            <li><a href="https://x.com/LAIRcronos" target="_blank" rel="noopener">X / Telegram</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom">
+        <div>© 2025 LAIR Cronos • Educational content only • NFA • DYOR</div>
+        <div class="icon-row">
+          <a href="https://x.com/LAIRcronos" target="_blank" rel="noopener" aria-label="X / Twitter">
+            <svg class="i" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://t.me/LAIRcronos" target="_blank" rel="noopener" aria-label="Telegram News">
+            <svg class="i" viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.34c.55 0 .79-.24 1.08-.52l2.6-2.5 5.39 3.9c.99 .54 1.7 .26 1.98 -.92l3.6 -16.86h .01c .32 -1.48 -.54 -2.06 -1.5 -1.7L1.2 9.83C -.33 10.44 -.31 11.32 .93 11.7l5.77 1.8L19.5 6.4c .6 -.4 1.16 -.17 .71 .23"/></svg>
+          </a>
+          <a href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener" aria-label="LAIR dApp">
+            <svg class="i" viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

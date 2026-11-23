@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LAIR • Cronos AI Influencer-Trader Agent</title>
+  <meta name="description" content="LAIR is an AI trading agent on Cronos: signal parsing, risk-managed execution, live trade tracking and market intelligence. Explore the LAIR dApp and live engine.">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="LAIR • Leoness AI on Cronos">
+  <meta property="og:title" content="LAIR • The Leoness AI Agent on Cronos">
+  <meta property="og:description" content="AI trading agent on Cronos with risk-managed execution, live tracking and market intelligence.">
+  <meta property="og:url" content="https://laircronos.xyz/">
+  <meta property="og:image" content="https://laircronos.xyz/assets/index_og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/jpeg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LAIR • The Leoness AI Agent on Cronos">
+  <meta name="twitter:description" content="AI trading agent on Cronos with risk-managed execution, live tracking and market intelligence.">
+  <meta name="twitter:image" content="https://laircronos.xyz/assets/index_og.jpg">
+  <meta name="twitter:site" content="@LAIRcronos">
+
+  <!-- Preload OG image so scrapers & browsers fetch it -->
+  <link rel="preload" as="image" href="assets/index_og.jpg">
+
+  <meta name="theme-color" content="#2c0f6f">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0a0620; --bg2:#0c0a28;
+      --glass:rgba(255,255,255,0.06); --stroke:rgba(255,255,255,0.18); --stroke-soft:rgba(255,255,255,0.09);
+      --txt:#e8e8ee; --muted:#a9a9c3;
+      --cy:#35e0ff; --mg:#ff2ea6; --yl:#ffd84d; --ok:#41f3b8; --warn:#ffb74d;
+      /* Altezza header usata per far partire l'hero-art sotto la navbar
+         Viene sovrascritta via JS con l’altezza reale del <nav> */
+      --navH: 64px;
+    }
+    @media (max-width: 900px){ :root{ --navH: 72px; } }
+    @media (max-width: 560px){ :root{ --navH: 84px; } }
+
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
+
+    /* Backdrop */
+    .backdrop{position:fixed;inset:0;z-index:-3;background:
+      radial-gradient(1200px 800px at 70% -10%,rgba(53,224,255,.18),transparent 60%),
+      radial-gradient(900px 600px at -10% 30%,rgba(255,46,166,.18),transparent 60%),
+      linear-gradient(180deg,var(--bg),var(--bg2));
+      animation:pulse 14s ease-in-out infinite alternate;background-attachment:fixed}
+    @keyframes pulse{0%{filter:hue-rotate(0deg) brightness(1)}100%{filter:hue-rotate(10deg) brightness(1.1)}}
+
+    /* HERO ART — ancorata a DESTRA e sempre sotto la navbar */
+    .hero-art{
+      position:fixed; right:0; left:auto;
+      top:var(--navH); height:calc(100% - var(--navH));
+      z-index:-2; pointer-events:none; width:auto;
+    }
+    .hero-art::before{
+      content:""; position:absolute; right:0; left:auto; top:0;
+      width:min(44vw,720px); height:min(44vw,720px);
+      background:url("assets/LAIRfullsquaretrasp720.png") right top/contain no-repeat;
+      opacity:.42; mix-blend-mode:screen; filter:drop-shadow(0 20px 40px rgba(0,0,0,.35));
+      transform: translateX(-2%); /* leggero rientro dal bordo destro */
+    }
+    @media (max-width:900px){
+      .hero-art::before{ width:min(62vw,580px); height:min(62vw,580px); opacity:.35; transform:translateX(-4%); }
+    }
+    @media (max-width:560px){
+      .hero-art::before{ width:78vw; height:78vw; opacity:.28; transform:translateX(-6%); }
+    }
+
+    /* NAV (coerente con Roadmap/Tokenomics) */
+    .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+      background:linear-gradient(180deg,rgba(10,6,32,.75),rgba(10,6,32,.35));border-bottom:1px solid var(--stroke)}
+    .nav .wrap{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;gap:10px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:34px;width:auto}
+    .brand b{font-size:1.05rem;letter-spacing:.5px;white-space:nowrap;font-family:"Space Grotesk",Inter,sans-serif}
+
+    .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .tab,.icon{
+      display:inline-flex;align-items:center;justify-content:center;
+      height:38px;border-radius:4px;border:1px solid var(--stroke-soft);
+      background:var(--glass);color:var(--txt);text-decoration:none;padding:0 12px;transition:.18s
+    }
+    .tab.active{border-color:rgba(53,224,255,.3);box-shadow:0 6px 22px rgba(53,224,255,.25)}
+    .tab.cta-nav{border-color:rgba(53,224,255,.25);background:linear-gradient(180deg,rgba(53,224,255,.14),rgba(255,46,166,.08));font-weight:700}
+    .icon{width:38px;padding:0}
+    .icon img{width:18px;height:18px;display:block}
+    .icon:hover,.tab:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(53,224,255,.25);border-color:rgba(53,224,255,.25)}
+    .i{width:18px;height:18px;display:inline-block;vertical-align:-3px} .i path{fill:currentColor}
+
+    /* HERO */
+    .hero{position:relative;isolation:isolate;min-height:72vh;display:grid;place-items:center;text-align:center;padding:42px 18px 34px}
+    .hero::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.25;background:url("assets/hero.jpg") center/cover no-repeat fixed;mix-blend-mode:screen}
+    .hero h1{font-family:"Space Grotesk",Inter,sans-serif;font-size:clamp(2.2rem,5vw,3.7rem);margin:8px 0 8px;font-weight:700;letter-spacing:.2px;color:#fff;line-height:1.08}
+    .hero .sub{font-size:clamp(1.02rem,2.2vw,1.2rem);color:var(--muted);max-width:860px;margin:0 auto}
+    .hero-panel{max-width:1040px;width:100%;padding:22px;border-radius:6px;border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg,rgba(14,10,42,.72),rgba(10,8,32,.52));box-shadow:0 20px 60px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.06)}
+    .dapp-spotlight{margin:18px auto 0;max-width:920px;display:grid;gap:12px;grid-template-columns:1.25fr auto;align-items:center;
+      padding:14px 16px;border-radius:4px;border:1px solid rgba(53,224,255,.16);
+      background:linear-gradient(135deg,rgba(53,224,255,.09),rgba(255,46,166,.06))}
+    .dapp-spotlight b{display:block;color:#fff;font-family:"Space Grotesk",Inter,sans-serif}
+    .dapp-spotlight .muted{margin:2px 0 0}
+    .btn.dapp-primary{background:linear-gradient(135deg,#4be8ff,#27d2ff 40%,#33a6ff);color:#06131a;box-shadow:0 12px 34px rgba(53,224,255,.28)}
+    .btn.ghost{background:rgba(255,255,255,.04);color:var(--txt);border:1px solid var(--stroke-soft);box-shadow:none}
+    @media (max-width:760px){
+      .dapp-spotlight{grid-template-columns:1fr}
+      .dapp-spotlight .cta{justify-content:flex-start;margin-top:4px}
+    }
+    .badges{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:18px 0}
+    .badge{padding:8px 12px;border-radius:2px;border:1px solid var(--stroke-soft);background:var(--glass);font-weight:600}
+    .contractLine{display:flex;gap:10px;justify-content:center;align-items:center;margin-top:10px;flex-wrap:wrap}
+    .copy{background:var(--glass);border:1px solid var(--stroke-soft);border-radius:2px;padding:8px 10px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;max-width:100%}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:3px;text-decoration:none;color:#08121a;font-weight:700;letter-spacing:.2px;background:linear-gradient(135deg,var(--cy),var(--mg));box-shadow:0 8px 30px rgba(53,224,255,.25);transition:.2s;border:1px solid rgba(255,255,255,.06)}
+    .btn.secondary{background:linear-gradient(135deg,#ffd84d,#ff9f43);color:#1a1104}
+    .btn:hover{transform:translateY(-2px)}
+
+    .status{max-width:900px;margin:16px auto 0;padding:10px 14px;border-radius:4px;border:1px solid var(--stroke-soft);
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));font-size:.95rem;color:var(--muted)}
+    .stats-strip{max-width:980px;margin:14px auto 0;display:grid;gap:10px;grid-template-columns:repeat(4,minmax(0,1fr))}
+    .stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:10px 12px;text-align:left}
+    .stat b{display:block;color:#fff;font-family:"Space Grotesk",Inter,sans-serif;font-size:1rem;line-height:1.1}
+    .stat span{color:var(--muted);font-size:.82rem}
+    @media (max-width:760px){.stats-strip{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+    /* SECTIONS */
+    section{max-width:1100px;margin:0 auto;padding:56px 18px}
+    h2{font-family:"Space Grotesk",Inter,sans-serif;font-size:clamp(1.6rem,3vw,2.1rem);margin:0 0 18px;line-height:1.15}
+    .grid{display:grid;gap:18px;grid-template-columns:repeat(3,minmax(0,1fr))}
+    @media (max-width:980px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:620px){.grid{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid var(--stroke-soft);border-radius:3px;padding:18px;text-align:left;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+    .card h3{margin:4px 0 6px;color:#fff}
+    .feature-lead{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
+    .timeline{display:grid;gap:10px}
+    .step{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:flex-start}
+    .step .n{width:28px;height:28px;border-radius:2px;border:1px solid rgba(53,224,255,.2);display:grid;place-items:center;font-weight:700;color:var(--cy);background:rgba(53,224,255,.06)}
+    .step .t{font-weight:600;color:#fff}
+    .step .d{color:var(--muted);font-size:.93rem}
+    @media (max-width:860px){.feature-lead{grid-template-columns:1fr}}
+    .accent-card{border-color:rgba(53,224,255,.12);background:
+      linear-gradient(180deg,rgba(53,224,255,.06),rgba(255,255,255,.02)),
+      linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02))}
+    .muted{color:var(--muted)}
+    .kicker{color:var(--yl);font-weight:800;letter-spacing:.6px;font-size:.8rem;text-transform:uppercase}
+    .list{display:grid;gap:12px}
+    .cmd{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.06);padding:8px 10px;border-radius:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;color:#e6fbff;display:inline-block}
+    .links-row{display:flex;flex-wrap:wrap;gap:10px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:3px;background:var(--glass);border:1px solid var(--stroke-soft);text-decoration:none;color:var(--txt)}
+    .pill:hover{border-color:rgba(53,224,255,.25)}
+    .quick-links-grid{display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr))}
+    @media (max-width:860px){.quick-links-grid{grid-template-columns:1fr}}
+    .site-footer{max-width:1100px;margin:24px auto 0;padding:0 18px 46px}
+    .site-footer .box{border:1px solid var(--stroke-soft);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border-radius:3px}
+    .site-footer .top{display:grid;gap:10px;grid-template-columns:1.1fr 1fr 1fr;padding:15px}
+    .site-footer .top > div{min-width:0}
+    .site-footer h4{margin:0 0 6px;color:var(--cy);font-size:.95rem;letter-spacing:.08em;text-transform:uppercase}
+    .site-footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+    .site-footer li a{color:var(--muted);text-decoration:none}
+    .site-footer li a:hover{color:var(--txt)}
+    .site-footer .brandline{display:flex;align-items:center;gap:10px;color:#fff;font-family:"Space Grotesk",Inter,sans-serif;font-weight:700}
+    .site-footer .brandline img{width:28px;height:28px;object-fit:contain}
+    .site-footer .subcopy{color:var(--muted);font-size:.92rem;margin-top:6px;max-width:40ch}
+    .site-footer .bottom{border-top:1px solid var(--stroke);padding:10px 15px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;color:var(--muted);font-size:.82rem}
+    .site-footer .icon-row{display:flex;gap:8px}
+    .site-footer .icon-row a{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--stroke-soft);background:var(--glass);border-radius:2px;color:var(--txt);text-decoration:none}
+    .site-footer .icon-row a:hover{border-color:rgba(53,224,255,.25)}
+    @media (max-width:900px){.site-footer .top{grid-template-columns:1fr}}
+
+    /* Responsive contract text */
+    #caText{display:inline-block;max-width:100%;word-break:break-all;overflow-wrap:anywhere;line-height:1.3;font-size:clamp(.72rem,2.8vw,.95rem)}
+
+    /* 1×1 pixel per forzare i bot a scaricare l’immagine OG */
+    .og-pixel{position:absolute;left:-9999px;top:auto;width:1px;height:1px;opacity:0;pointer-events:none}
+  </style>
+</head>
+<body>
+  <div class="backdrop"></div>
+  <!-- Layer grafico sotto i contenuti: LAIR a destra, parte sempre sotto la navbar -->
+  <div class="hero-art" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav class="nav" id="topnav">
+    <div class="wrap">
+      <div class="brand">
+        <img src="assets/LAIR_Logo_text_512Trasp.png" alt="LAIR logo">
+        <b>LAIR • Leoness AI on Cronos</b>
+      </div>
+
+      <div class="actions">
+        <a class="tab active" href="index.html" title="Home">Home</a>
+        <a class="tab cta-nav" href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener" title="LAIR dApp">LAIR dApp</a>
+        <a class="tab" href="roadmap.html" title="Roadmap">Roadmap</a>
+        <a class="tab" href="tokenomics.html" title="Tokenomics">Tokenomics</a>
+        <a class="tab" href="https://laircronos.gitbook.io/" target="_blank" rel="noopener" title="Whitepaper">Whitepaper</a>
+
+        <a class="icon" href="https://x.com/LAIRcronos" target="_blank" aria-label="Twitter" title="Twitter">
+          <svg class="i" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.47.69a4.22 4.22 0 0 0 1.85-2.33 8.43 8.43 0 0 1-2.67 1.02A4.19 4.19 0 0 0 12 8.38c0 .33.04.65.11.96A11.9 11.9 0 0 1 3.16 4.9a4.18 4.18 0 0 0 1.3 5.59c-.66-.02-1.28-.2-1.82-.5v.05c0 2.03 1.45 3.72 3.37 4.11-.35.1-.72.15-1.1.15-.27 0-.53-.03-.78-.07.53 1.67 2.08 2.88 3.91 2.91A8.41 8.41 0 0 1 2 19.54a11.86 11.86 0 0 0 6.44 1.88c7.73 0 11.96-6.41 11.96-11.96l-.01-.55A8.53 8.53 0 0 0 24 5.5c-.84 .37-1.73 .62-2.67 .74z"/></svg>
+        </a>
+        <a class="icon" href="https://t.me/LAIRcronos" target="_blank" aria-label="Telegram News" title="Telegram News">
+          <svg class="i" viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.34c.55 0 .79-.24 1.08-.52l2.6-2.5 5.39 3.9c.99 .54 1.7 .26 1.98 -.92l3.6 -16.86h .01c .32 -1.48 -.54 -2.06 -1.5 -1.7L1.2 9.83C -.33 10.44 -.31 11.32 .93 11.7l5.77 1.8L19.5 6.4c .6 -.4 1.16 -.17 .71 .23"/></svg>
+        </a>
+        <a class="icon" href="https://t.me/cronosLAIR" target="_blank" aria-label="Telegram Community" title="Telegram Community">
+          <svg class="i" viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.34c .55 0 .79 -.24 1.08 -.52l2.6 -2.5 5.39 3.9c .99 .54 1.7 .26 1.98 -.92l3.6 -16.86h .01c .32 -1.48 -.54 -2.06 -1.5 -1.7L1.2 9.83C -.33 10.44 -.31 11.32 .93 11.7l5.77 1.8L19.5 6.4c .6 -.4 1.16 -.17 .71 .23"/></svg>
+        </a>
+        <a class="icon" href="https://dexscreener.com/cronos/0xdfa130ad144e4b64b5cb537b9123a956d174fe23" target="_blank" aria-label="Dexscreener" title="Dexscreener">
+          <img src="assets/dex-screener-seeklogo.svg" alt="">
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-panel">
+      <div class="badges">
+        <span class="badge">Cronos Native</span>
+        <span class="badge">Autotrading Agent</span>
+        <span class="badge">Risk-Managed Engine</span>
+        <span class="badge">Ticker: $LAIR</span>
+      </div>
+
+      <!-- CONTRACT UNDER BADGES -->
+      <div class="contractLine">
+        <span class="muted">Contract</span>
+        <div class="copy" id="copyCA" title="Copy contract">
+          <svg class="i" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          <span id="caText">0xbC62C287b50B86A46e5B552bCd5BF9b64DA35eCc</span>
+        </div>
+      </div>
+
+      <h1>LAIR Agent on Cronos, with a live trading engine and public dApp</h1>
+      <p class="sub">
+        LAIR is an AI agent built to analyze markets, parse trade setups, manage execution logic and publish signals in real time.
+        The public website explains the project; the <b>LAIR dApp</b> is where you can inspect active/pending trades, charts, execution states and risk-managed trailing behavior.
+      </p>
+
+      <div class="dapp-spotlight" aria-label="Primary dApp callout">
+        <div>
+          <b>Start from the LAIR dApp</b>
+          <p class="muted">Live trade board, candlestick views, pending/open/closed state transitions, and managed trailing-stop execution tracking.</p>
+        </div>
+        <div class="cta" style="margin:0">
+          <a class="btn dapp-primary" href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener">
+            Open LAIR dApp
+          </a>
+          <a class="btn ghost" href="#autotrading-core">How it works</a>
+        </div>
+      </div>
+
+      <div class="stats-strip">
+        <div class="stat"><b>AI Signal Parsing</b><span>Posts -> structured setups</span></div>
+        <div class="stat"><b>Execution States</b><span>Pending / Open / Closed / Discarded</span></div>
+        <div class="stat"><b>Risk Management</b><span>Managed trailing stop logic</span></div>
+        <div class="stat"><b>Public Transparency</b><span>Charts + trade history in dApp</span></div>
+      </div>
+
+      <div class="status">
+        <b>Status:</b> website = project overview • <b>LAIR dApp = operational trade-monitoring surface</b> • dev wallet locked ~4% of supply for <b>6 months</b> 🔒
+      </div>
+
+      <div class="cta">
+        <a class="btn dapp-primary" href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener">
+          Open LAIR dApp
+        </a>
+        <a class="btn" href="https://wolfstreet.fun/launcher/0xbC62C287b50B86A46e5B552bCd5BF9b64DA35eCc" target="_blank" rel="noopener">
+          <svg class="i" viewBox="0 0 24 24"><path d="M12 2l4 4-6 6 2 2 6-6 4 4-8 10-4-4-4-1 1-4 4 4L12 2z"/></svg>
+          Launchpad
+        </a>
+        <a class="btn secondary" href="https://dexscreener.com/cronos/0xdfa130ad144e4b64b5cb537b9123a956d174fe23" target="_blank">
+          <img class="i" src="assets/dex-screener-seeklogo.svg" alt="">
+          Dexscreener
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section>
+    <div class="kicker">About</div>
+    <h2>What LAIR is</h2>
+    <p class="muted">
+      LAIR is an autonomous AI Agent built to operate in the Cronos ecosystem. She blends market, social and on-chain data
+      to surface momentum tokens, produce instant technical snapshots and deliver actionable context in seconds.
+      The stack is battle-tested and designed for scale and reliability.
+    </p>
+  </section>
+
+  <section id="autotrading-core">
+    <div class="kicker">Core Product</div>
+    <h2>Agent-driven trading workflow (what the dApp makes visible)</h2>
+    <div class="feature-lead">
+      <div class="card accent-card">
+        <h3>LAIRTrading / LAIRTrack execution loop</h3>
+        <p class="muted">
+          The core product is not only content generation: it is the agent pipeline that parses trade setups, tracks market prices, manages lifecycle transitions, and applies risk controls while exposing everything in a public dashboard.
+        </p>
+        <p class="muted">
+          The LAIR dApp is the operational surface for this engine: you can inspect pending entries, opened trades, closed results, chart overlays and execution timestamps in a single place.
+        </p>
+        <div class="links-row" style="margin-top:10px">
+          <a class="pill" href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener">Open LAIR dApp</a>
+          <a class="pill" href="https://laircronos.gitbook.io/" target="_blank" rel="noopener">Read Whitepaper</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Execution Lifecycle</h3>
+        <div class="timeline">
+          <div class="step"><div class="n">1</div><div><div class="t">Signal Parsing</div><div class="d">Agent output / social posts are parsed into entry, TP, SL and side.</div></div></div>
+          <div class="step"><div class="n">2</div><div><div class="t">Pending Validation</div><div class="d">Trades stay pending until entry conditions are met or are discarded if stale.</div></div></div>
+          <div class="step"><div class="n">3</div><div><div class="t">Open Position Tracking</div><div class="d">Live prices update unrealized PnL and chart overlays in the dApp.</div></div></div>
+          <div class="step"><div class="n">4</div><div><div class="t">Managed Risk Exit</div><div class="d">TP / stop / managed trailing logic closes the trade and preserves execution history.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section>
+    <div class="kicker">Capabilities</div>
+    <h2>Engine Highlights</h2>
+    <div class="grid">
+      <div class="card"><h3>On-chain Analysis</h3><p class="muted">Scans tokens accelerating on volume, hype and momentum to spot moves before the crowd.</p></div>
+      <div class="card"><h3>Hourly Charts</h3><p class="muted">Auto-generated charts with key indicators for quick sharing and reporting.</p></div>
+      <div class="card"><h3>Fundamentals</h3><p class="muted">Market cap, supply, liquidity and core metrics delivered instantly.</p></div>
+      <div class="card"><h3>News Feed</h3><p class="muted">Breaking updates filtered for market impact.</p></div>
+      <div class="card"><h3>Social & Sentiment</h3><p class="muted">Millions of posts parsed to measure investor mood in real time.</p></div>
+      <div class="card accent-card"><h3>Autotrading Engine</h3><p class="muted"><b>Core focus:</b> the LAIR engine handles trade lifecycle and risk management, while the dApp exposes states, charts and execution transparency. Ongoing refinements improve stability and execution visibility.</p></div>
+    </div>
+  </section>
+
+  <!-- GUIDE -->
+  <section>
+    <div class="kicker">Guide</div>
+    <h2>How to interact with LAIR on X</h2>
+    <p class="muted">Tag <b>@LAIRcronos</b> followed by an action and a <b>$TICKER</b> or <b>contract address (CA)</b>.<br>
+    <b>CHART</b>, <b>ANALYSIS</b> and <b>FUNDAMENTAL</b> require a ticker or CA. You can also request <b>NEWS</b> or <b>SENTIMENT</b> without symbols.</p>
+
+    <div class="grid">
+      <div class="card list">
+        <h3>Commands</h3>
+        <div><span class="cmd">CHART $CRO 1h</span> • hourly chart with indicators</div>
+        <div><span class="cmd">ANALYSIS 0x…</span> • blended on-chain + trading + sentiment</div>
+        <div><span class="cmd">FUNDAMENTAL $ETH</span> • market cap, liquidity, supply</div>
+        <div><span class="cmd">PRICE $TICKER</span> • real-time quote with quick read</div>
+        <div><span class="cmd">NEWS</span> • market-moving updates</div>
+        <div><span class="cmd">SENTIMENT</span> • live investor mood</div>
+      </div>
+
+      <div class="card">
+        <h3>Tips</h3>
+        <p class="muted">
+          Use clear tickers or paste the CA for new listings. Add timeframe for charts
+          (e.g., <span class="cmd">1h</span>, <span class="cmd">4h</span>, <span class="cmd">1d</span>).  
+          Combine with your DYOR. LAIR outputs analytics, not financial advice.
+        </p>
+      </div>
+
+      <!-- B2B / CUSTOM AGENT -->
+      <div class="card">
+        <h3>Need a custom Agent for your community?</h3>
+        <p class="muted">
+          We build private or branded instances of LAIR with dedicated feeds, commands and permissions.
+          Ideal for projects, KOL groups and trading communities on Cronos.
+        </p>
+        <div class="links-row" style="margin-top:8px">
+          <a class="pill" href="https://t.me/LAIRcronos" target="_blank">
+            <svg class="i" viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.34c.55 0 .79-.24 1.08-.52l2.6-2.5 5.39 3.9c.99 .54 1.7 .26 1.98 -.92l3.6 -16.86h .01c .32 -1.48 -.54 -2.06 -1.5 -1.7L1.2 9.83C -.33 10.44 -.31 11.32 .93 11.7l5.77 1.8L19.5 6.4c .6 -.4 1.16 -.17 .71 .23"/></svg>
+            Contact our devs on Telegram (News)
+          </a>
+          <a class="pill" href="https://t.me/cronosLAIR" target="_blank">
+            <svg class="i" viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.34c .55 0 .79 -.24 1.08 -.52l2.6 -2.5 5.39 3.9c .99 .54 1.7 .26 1.98 -.92l3.6 -16.86h .01c .32 -1.48 -.54 -2.06 -1.5 -1.7L1.2 9.83C -.33 10.44 -.31 11.32 .93 11.7l5.77 1.8L19.5 6.4c .6 -.4 1.16 -.17 .71 .23"/></svg>
+            Or ping us in the Community chat
+          </a>
+        </div>
+        <p class="muted" style="margin-top:8px">We’ll scope features, timelines and integration with your channels.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Access</div>
+    <h2>Primary destinations</h2>
+    <div class="quick-links-grid">
+      <div class="card accent-card">
+        <h3>LAIR dApp</h3>
+        <p class="muted">Main operational interface: active and pending trades, chart overlays, execution states and history.</p>
+        <div class="links-row"><a class="pill" href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener">Open dApp</a></div>
+      </div>
+      <div class="card">
+        <h3>Trading & Market</h3>
+        <p class="muted">Track liquidity and market activity from the official trading surfaces.</p>
+        <div class="links-row">
+          <a class="pill" href="https://dexscreener.com/cronos/0xdfa130ad144e4b64b5cb537b9123a956d174fe23" target="_blank" rel="noopener">Dexscreener</a>
+          <a class="pill" href="https://wolfstreet.fun/launcher/0xbC62C287b50B86A46e5B552bCd5BF9b64DA35eCc" target="_blank" rel="noopener">Launchpad</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Docs & Community</h3>
+        <p class="muted">Product docs, updates and community channels.</p>
+        <div class="links-row">
+          <a class="pill" href="https://laircronos.gitbook.io/" target="_blank" rel="noopener">Gitbook</a>
+          <a class="pill" href="https://x.com/LAIRcronos" target="_blank" rel="noopener">X</a>
+          <a class="pill" href="https://t.me/LAIRcronos" target="_blank" rel="noopener">TG News</a>
+          <a class="pill" href="https://t.me/cronosLAIR" target="_blank" rel="noopener">TG Community</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="box">
+      <div class="top">
+        <div>
+          <a class="brandline" href="https://laircronos.xyz">
+            <img src="assets/LAIRfullsquaretrasp720.png" alt="LAIR">
+            <span>LAIR Cronos</span>
+          </a>
+          <div class="subcopy">
+            AI trading agent on Cronos with a public dApp for execution transparency, chart review and risk-managed trade lifecycle tracking.
+          </div>
+        </div>
+        <div>
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="roadmap.html">Roadmap</a></li>
+            <li><a href="tokenomics.html">Tokenomics</a></li>
+            <li><a href="https://laircronos.gitbook.io/" target="_blank" rel="noopener">Whitepaper</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Products & Links</h4>
+          <ul>
+            <li><a href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener">LAIR dApp</a></li>
+            <li><a href="https://dexscreener.com/cronos/0xdfa130ad144e4b64b5cb537b9123a956d174fe23" target="_blank" rel="noopener">Dexscreener</a></li>
+            <li><a href="https://wolfstreet.fun/launcher/0xbC62C287b50B86A46e5B552bCd5BF9b64DA35eCc" target="_blank" rel="noopener">Launchpad</a></li>
+            <li><a href="https://x.com/LAIRcronos" target="_blank" rel="noopener">X / Telegram</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom">
+        <div>© 2025 LAIR Cronos • Educational content only • NFA • DYOR</div>
+        <div class="icon-row">
+          <a href="https://x.com/LAIRcronos" target="_blank" rel="noopener" aria-label="X / Twitter">
+            <svg class="i" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://t.me/LAIRcronos" target="_blank" rel="noopener" aria-label="Telegram News">
+            <svg class="i" viewBox="0 0 24 24"><path d="M9.04 15.1l-.38 5.34c.55 0 .79-.24 1.08-.52l2.6-2.5 5.39 3.9c.99 .54 1.7 .26 1.98 -.92l3.6 -16.86h .01c .32 -1.48 -.54 -2.06 -1.5 -1.7L1.2 9.83C -.33 10.44 -.31 11.32 .93 11.7l5.77 1.8L19.5 6.4c .6 -.4 1.16 -.17 .71 .23"/></svg>
+          </a>
+          <a href="https://lairdapp.laircronos.xyz" target="_blank" rel="noopener" aria-label="LAIR dApp">
+            <svg class="i" viewBox="0 0 24 24"><path d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<!-- 1×1 “visible” pixel: i parser lo scaricano di sicuro -->
+<div aria-hidden="true" style="width:1px;height:1px;overflow:hidden;margin:0 auto;">
+  <img
+    src="assets/index_og.jpg?v=2"
+    alt="LAIR social preview"
+    width="1" height="1"
+    loading="eager" decoding="async" fetchpriority="high"
+    style="display:block;width:1px;height:1px;object-fit:cover;">
+</div>
+
+  <script>
+    // 1) Copy contract helper
+    document.getElementById('copyCA').addEventListener('click', async () => {
+      const ca = document.getElementById('caText').innerText.trim();
+      try { await navigator.clipboard.writeText(ca); alert('Contract copied'); }
+      catch(e){ console.log(e); }
+    });
+
+    // 2) Imposta dinamicamente --navH con l’altezza reale della navbar.
+    //    Evita che l’hero-art "entri" sotto l’header quando la navbar cresce su mobile.
+    function setNavHeightVar(){
+      const nav = document.getElementById('topnav');
+      if(!nav) return;
+      const h = Math.ceil(nav.offsetHeight);
+      document.documentElement.style.setProperty('--navH', h + 'px');
+    }
+    // primo set dopo paint
+    window.addEventListener('load', () => { setNavHeightVar(); setTimeout(setNavHeightVar, 50); });
+    // aggiorna su resize/orientamento/font swap
+    window.addEventListener('resize', setNavHeightVar);
+    window.matchMedia('(orientation: portrait)').addEventListener?.('change', setNavHeightVar);
+    // osserva eventuali cambi stile dinamici del nav
+    const navObs = new ResizeObserver(setNavHeightVar);
+    navObs.observe(document.getElementById('topnav'));
+  </script>
+</body>
+</html>
